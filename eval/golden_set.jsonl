@@ -1,0 +1,20 @@
+{"question": "My relative suddenly developed depression and paranoia but no memory problems — could it still be Alzheimer's?", "relevant_ids": [18, 22, 56, 10], "notes": "psychiatric/behavioral onset without memory loss"}
+{"question": "Can anything be done to help my partner keep talking and communicating as Alzheimer's progresses?", "relevant_ids": [1, 3, 58, 92], "notes": "language/communication interventions"}
+{"question": "My mother keeps losing words and can't finish sentences, but her memory seems okay — what could this be?", "relevant_ids": [3, 58, 66, 92], "notes": "logopenic / primary progressive aphasia variant"}
+{"question": "Alzheimer's runs in my family and started young — should we consider genetic testing?", "relevant_ids": [16, 62, 54, 55, 45, 61], "notes": "hereditary/familial early-onset, PSEN1 mutations"}
+{"question": "My loved one with Alzheimer's is having hallucinations and delusions — what can be done?", "relevant_ids": [80, 78, 76, 96], "notes": "BPSD — psychosis, delusions"}
+{"question": "My parent with Alzheimer's keeps falling and I am scared they will get hurt — how do I help?", "relevant_ids": [67, 36], "notes": "fall prevention and mobility management"}
+{"question": "What non-medication approaches help with agitation and difficult behaviors in Alzheimer's?", "relevant_ids": [68, 82, 96, 95, 69, 76], "notes": "non-pharmacological BPSD management"}
+{"question": "Is music or movement therapy helpful for someone with Alzheimer's?", "relevant_ids": [69, 95, 82], "notes": "music, movement, and activity-based interventions"}
+{"question": "My loved one with Alzheimer's keeps repeating the same words and making sounds — why?", "relevant_ids": [71, 81, 82], "notes": "vocalizations, repetitive behaviors in advanced dementia"}
+{"question": "Can a medication cause sudden confusion or delirium in someone with Alzheimer's?", "relevant_ids": [75, 99, 31, 32], "notes": "medication-induced delirium and adverse drug events"}
+{"question": "My spouse has jerking muscle movements along with their Alzheimer's — is this related?", "relevant_ids": [9, 27], "notes": "myoclonus in Alzheimer's"}
+{"question": "What is posterior cortical atrophy and how is it different from typical Alzheimer's?", "relevant_ids": [63, 50, 59, 48], "notes": "atypical AD variants — vision and spatial onset"}
+{"question": "My relative's Alzheimer's started with vision problems and getting lost, not memory — is that possible?", "relevant_ids": [63, 50, 48, 44], "notes": "posterior cortical atrophy / visuospatial onset"}
+{"question": "My father was only in his late 30s when Alzheimer's started — what should we know?", "relevant_ids": [40, 41, 44, 16], "notes": "very early onset Alzheimer's in younger adults"}
+{"question": "Could gut health or probiotics make any difference for Alzheimer's symptoms?", "relevant_ids": [85, 86], "notes": "fecal microbiota transplantation, gut-brain axis"}
+{"question": "My mother with Alzheimer's keeps asking the same question every few minutes — are there techniques to help her relearn things?", "relevant_ids": [70, 68, 95], "notes": "errorless learning, spaced retrieval, cognitive rehab"}
+{"question": "What are the risks of the newer Alzheimer's drugs like lecanemab that I keep hearing about?", "relevant_ids": [31, 32, 33, 84], "notes": "lecanemab adverse effects — ARIA, urinary retention, strokes"}
+{"question": "Can depression be an early warning sign of Alzheimer's before memory problems appear?", "relevant_ids": [56, 10, 18, 22], "notes": "mood changes as prodromal or early Alzheimer's symptom"}
+{"question": "How do I coordinate care for a family member with Alzheimer's when relatives are spread across different places?", "relevant_ids": [97], "notes": "distributed caregiving, remote family coordination"}
+{"question": "My loved one with Alzheimer's has started eating non-food items — what is this and how do I handle it?", "relevant_ids": [81, 96, 68], "notes": "pica behavior, person-centered behavioral management"}

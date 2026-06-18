@@ -1,0 +1,18 @@
+data/*.db
+output/*
+knowledge_base/index.npz
+knowledge_base/index_meta.json
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+!output/.gitkeep
+
+# Editor / OS
+.idea/
+.DS_Store
+**/.DS_Store
+
+# Claude Code local settings
+.claude/settings.local.json

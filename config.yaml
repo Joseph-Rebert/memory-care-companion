@@ -1,0 +1,43 @@
+# Search configuration for the Alzheimer's research & case-study finder.
+# Edit queries/filters here to refine scope without touching code.
+
+defaults:
+  # Only keep results published in or after this year (null = no limit).
+  from_year: 2010
+  # Default number of results per source per search.
+  per_source_limit: 25
+
+profiles:
+  # ----------------------------------------------------------------------
+  # Patient case studies: published clinical case reports on Alzheimer's /
+  # dementia patients. Used for realistic symptom patterns & conversation.
+  # ----------------------------------------------------------------------
+  case-studies:
+    description: Clinical case reports on Alzheimer's / dementia patients
+    sources: [pubmed, europepmc]
+    # Topic only — the case_reports_only filter below automatically restricts to
+    # the "Case Reports" publication type, so no need to add it to the query.
+    query: >-
+      (Alzheimer OR "Alzheimer's disease" OR "Alzheimer disease" OR
+      "dementia, Alzheimer type")
+    filters:
+      # Restrict to case reports where the source supports it (enforced at the
+      # record level too: non-case-reports are dropped before saving).
+      case_reports_only: true
+      # Set true to only return open-access cases (full text is fetchable).
+      # Leave false to also capture abstract-only cases.
+      open_access_only: false
+
+  # ----------------------------------------------------------------------
+  # AI / chatbot research: conversational AI, LLMs, and chatbots applied to
+  # dementia / cognitive care. Used for design and method guidance.
+  # ----------------------------------------------------------------------
+  ai-chatbot:
+    description: Conversational AI / chatbot research for dementia care
+    sources: [semantic_scholar, arxiv, openalex]
+    query: >-
+      (chatbot OR "conversational agent" OR "conversational AI" OR
+      "large language model" OR LLM OR "dialogue system") AND
+      (dementia OR Alzheimer OR "cognitive impairment" OR "elderly care")
+    filters:
+      case_reports_only: false
