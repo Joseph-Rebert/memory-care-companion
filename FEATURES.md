@@ -23,7 +23,7 @@ Move items between sections as you decide. Status tags: 💡 idea · 🔜 next �
 - 💡 Add a "crisis resources" panel (hotlines, when to call for help)
 
 ## 💡 Bigger / later
-- 💡 Deploy it online so others can use it (Streamlit Community Cloud)
+- 💡 Deploy it online so others can use it (Render / Railway / Fly.io via the Procfile)
 - 💡 User accounts / per-caregiver profiles
 - 💡 Multi-language support
 - 💡 Feedback buttons (👍/👎) on answers to improve the prompt over time

@@ -80,15 +80,21 @@ analysis (also in `knowledge_base/analysis.jsonl`).
 
 ### The caregiver chatbot
 
-A Streamlit web chat grounded in these cases lives in `chatbot/`. It uses **RAG**:
+A FastAPI web chat grounded in these cases lives in `chatbot/`. It uses **RAG**:
 each question retrieves only the most relevant cases (via Voyage embeddings)
 instead of sending all of them. Prepare the knowledge and run it:
 
 ```bash
 python -m alz_finder.cli analyze          --profile case-studies --min-score 2  # needs ANTHROPIC_API_KEY
 python -m alz_finder.cli build-embeddings                                       # needs VOYAGE_API_KEY
-streamlit run chatbot/app.py
+uvicorn chatbot.server:app --reload                                             # open http://127.0.0.1:8000
 ```
+
+The server is stateless (the browser holds the conversation) and streams replies
+over Server-Sent Events. The UI lives in `chatbot/static/` (plain HTML/CSS/JS,
+no build step — edit and refresh). To deploy a live server, any host that runs a
+`Procfile` (Render, Railway, Fly.io) works out of the box; set `ANTHROPIC_API_KEY`
+and `VOYAGE_API_KEY` in the host's environment.
 
 (Without `VOYAGE_API_KEY` / an index, the chat still works — it falls back to
 sending all cases.) See `chatbot/README.md` for setup, the self-serve
@@ -143,7 +149,7 @@ alz_finder/
   import_urls.py  import article URLs from a CSV into the library
   export.py       Markdown / CSV writers
   cli.py          command-line entry point
-chatbot/          Streamlit RAG chat grounded in the cases
+chatbot/          FastAPI RAG chat (server.py + static/) grounded in the cases
 eval/             golden set + chart scripts for retrieval metrics
 config.yaml       editable search profiles (queries, year filter, sources)
 data/papers.db    your collected papers (gitignored)

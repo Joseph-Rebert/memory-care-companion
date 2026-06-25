@@ -1,7 +1,8 @@
 # Memory Care Companion — Chatbot
 
-A Streamlit web chat that answers Alzheimer's-caregiver questions, grounded in
-the real case studies you collected, powered by the Claude API.
+A FastAPI web chat that answers Alzheimer's-caregiver questions, grounded in
+the real case studies you collected, powered by the Claude API. The UI is plain
+HTML/CSS/JS (`static/`, no build step) and replies stream over Server-Sent Events.
 
 ## One-time setup
 
@@ -25,16 +26,18 @@ the real case studies you collected, powered by the Claude API.
 ## Run it
 
 ```bash
-streamlit run chatbot/app.py
+uvicorn chatbot.server:app --reload      # then open http://127.0.0.1:8000
 ```
 
-A browser tab opens with the chat. Type a caregiver question (e.g. *"My dad gets
-agitated in the evenings — what can I do?"*) and it answers from your cases,
-citing them, with safety guardrails (it defers medical/medication decisions to
-clinicians and stays on topic).
+Open the URL and type a caregiver question (e.g. *"My dad gets agitated in the
+evenings — what can I do?"*) and it answers from your cases, citing them, with
+safety guardrails (it defers medical/medication decisions to clinicians and
+stays on topic).
 
-Sidebar controls: pick the **model**, see how many **cases** are loaded, view
-**Sources**, **Refresh knowledge** after you add cases, and **Clear chat**.
+Sidebar controls: pick the **model**, set retrieval **top-k**, view the **cases
+used** in the last answer, and **Clear chat**. To deploy a live server, push to
+any host that runs the project's `Procfile` (Render / Railway / Fly.io) and set
+`ANTHROPIC_API_KEY` + `VOYAGE_API_KEY` in its environment.
 
 ## Growing the knowledge — self-serve, no code changes
 
@@ -50,7 +53,7 @@ python -m alz_finder.cli fetch-fulltext  --profile case-studies
 python -m alz_finder.cli analyze         --profile case-studies --min-score 1
 python -m alz_finder.cli build-embeddings                        # re-index for retrieval
 python -m alz_finder.cli build-kb        --profile case-studies  # optional: updates cases.jsonl
-# then click "Refresh knowledge" in the running app (or restart it)
+# then restart the server (or POST /api/reload) to pick up the new cases
 ```
 
 `import-csv` reads URLs from the first column of a CSV, extracts a PMCID/PMID/DOI
@@ -86,7 +89,8 @@ time. This keeps cost roughly flat and answers sharp as the library grows.
 2. On each question, `chatbot/knowledge.py::retrieve_knowledge` embeds the
    question, finds the top-k cases by cosine similarity, and builds the grounding
    text from just those (the sidebar's **top-k** slider controls how many).
-3. The sidebar shows which cases were used (with similarity scores).
+3. The sidebar shows which cases were used (with similarity scores), streamed
+   alongside the answer.
 
 **Fallback:** if the index hasn't been built or `VOYAGE_API_KEY` isn't set, the
 chatbot automatically falls back to sending *all* non-off-topic cases
@@ -98,7 +102,8 @@ chatbot automatically falls back to sending *all* non-off-topic cases
 ## Files
 ```
 chatbot/
-  app.py            Streamlit UI (chat, sidebar, refresh)
+  server.py         FastAPI server (SSE chat API + serves the UI)
+  static/           front-end (index.html, styles.css, app.js — no build step)
   knowledge.py      loads analysis.jsonl → grounding text + sources
   prompts.py        caregiver system prompt + safety guardrails
   claude_client.py  Anthropic SDK wrapper (cached system block + streaming)

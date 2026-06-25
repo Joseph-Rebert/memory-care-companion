@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memory Care Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <h1>Memory Care Companion</h1>
+        <p class="brand-sub">Alzheimer's caregiver support</p>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel-title" id="sources-title">Cases referenced</h2>
+        <ul class="sources" id="sources"></ul>
+      </div>
+
+      <div class="spacer"></div>
+
+      <button class="ghost-btn" id="clear">Clear conversation</button>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <header class="topbar">
+        <button class="text-btn menu" id="menu">Menu</button>
+        <p class="disclaimer" id="disclaimer"></p>
+      </header>
+
+      <div class="messages" id="messages">
+        <div class="welcome" id="welcome">
+          <h2>How can I help with caregiving today?</h2>
+          <p>Ask about symptoms, communication, daily routines, or coping —
+             grounded in real, published Alzheimer's case studies.</p>
+          <div class="suggestions" id="suggestions">
+            <button>How do I respond when they keep asking the same question?</button>
+            <button>What helps with sundowning in the evening?</button>
+            <button>They're refusing to bathe — what can I try?</button>
+          </div>
+        </div>
+      </div>
+
+      <form class="composer" id="composer">
+        <textarea id="input" rows="1" placeholder="Ask about caring for someone with Alzheimer's…"></textarea>
+        <button type="submit" id="send">Send</button>
+      </form>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

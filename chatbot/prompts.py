@@ -36,7 +36,7 @@ appropriate."""
 
 # Shown in the UI at all times.
 DISCLAIMER = (
-    "⚠️ This assistant offers **general education and support for Alzheimer's "
+    "This assistant offers **general education and support for Alzheimer's "
     "caregivers — not medical advice**. Always consult the care team for "
     "diagnosis or medication decisions. In an emergency, call your local "
     "emergency number."
