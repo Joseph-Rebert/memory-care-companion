@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1f3a34" />
   <title>Memory Care Companion</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,15 +12,19 @@
 </head>
 <body>
   <div class="app">
+    <!-- Dims the page behind the mobile drawer; tap to close. -->
+    <div class="scrim" id="scrim" hidden></div>
+
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="brand">
         <h1>Memory Care Companion</h1>
         <p class="brand-sub">Alzheimer's caregiver support</p>
+        <button class="drawer-close" id="drawer-close" aria-label="Close menu">Close</button>
       </div>
 
       <div class="panel">
-        <h2 class="panel-title" id="sources-title">Cases referenced</h2>
+        <h2 class="panel-title" id="sources-title">Cases retrieved</h2>
         <ul class="sources" id="sources"></ul>
       </div>
 
@@ -31,11 +36,11 @@
     <!-- Main -->
     <main class="main">
       <header class="topbar">
-        <button class="text-btn menu" id="menu">Menu</button>
+        <button class="text-btn menu" id="menu" aria-controls="sidebar" aria-expanded="false">Menu</button>
         <p class="disclaimer" id="disclaimer"></p>
       </header>
 
-      <div class="messages" id="messages">
+      <div class="messages" id="messages" aria-live="polite">
         <div class="welcome" id="welcome">
           <h2>How can I help with caregiving today?</h2>
           <p>Ask about symptoms, communication, daily routines, or coping —
@@ -49,7 +54,9 @@
       </div>
 
       <form class="composer" id="composer">
-        <textarea id="input" rows="1" placeholder="Ask about caring for someone with Alzheimer's…"></textarea>
+        <!-- Kept short so it fits one row at 320px without clipping; the welcome
+             screen carries the longer "ask about symptoms, communication…" copy. -->
+        <textarea id="input" rows="1" placeholder="Ask about caregiving…"></textarea>
         <button type="submit" id="send">Send</button>
       </form>
     </main>

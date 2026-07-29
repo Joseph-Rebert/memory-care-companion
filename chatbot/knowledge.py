@@ -12,19 +12,39 @@ from __future__ import annotations
 
 import json
 import os
+import re
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 ANALYSIS_PATH = os.path.join(ROOT, "knowledge_base", "analysis.jsonl")
 
 _INTRO = ("The following are distilled analyses of real, published Alzheimer's "
-          "case reports. Ground your answers in them and cite case "
-          "titles when you use them.\n\n")
+          "case reports. Ground your answers in them. Each case carries a "
+          "SOURCE_URL — when you draw on a case, cite it as a markdown link "
+          "using exactly that URL.\n\n")
+
+
+def _cite_url(rec: dict) -> str:
+    """A URL that actually resolves to the paper, or "" if we don't have one.
+
+    Some records carry a bare host (e.g. "https://pubmed.ncbi.nlm.nih.gov/")
+    with no article id. Linking that is worse than not linking — it looks like a
+    citation but drops the reader on a homepage — so treat it as missing.
+    """
+    url = (rec.get("url") or "").strip()
+    if url:
+        path = re.sub(r"^https?://[^/]+", "", url).strip("/")
+        if path:
+            return url
+    doi = (rec.get("doi") or "").strip()
+    return f"https://doi.org/{doi}" if doi else ""
 
 
 def _format_case(rec: dict) -> str:
     lines = [f"### {rec.get('title', '(untitled)')}"]
-    cite = rec.get("url") or (f"https://doi.org/{rec['doi']}" if rec.get("doi") else "")
-    lines.append(f"[Case source — {rec.get('year', 'n.d.')} — {cite}]")
+    cite = _cite_url(rec)
+    lines.append(f"- YEAR: {rec.get('year', 'n.d.')}")
+    # Spelled out so the model can copy it verbatim into a markdown link.
+    lines.append(f"- SOURCE_URL: {cite}" if cite else "- SOURCE_URL: (none — cite by title only)")
     for field, label in [
         ("patient_profile", "Patient"),
         ("symptoms_behavior", "Symptoms & behavior"),
@@ -48,7 +68,7 @@ def _format_case(rec: dict) -> str:
 
 
 def _source(rec: dict, score: float | None = None) -> dict:
-    s = {"title": rec.get("title", "(untitled)"), "url": rec.get("url", ""),
+    s = {"title": rec.get("title", "(untitled)"), "url": _cite_url(rec),
          "year": rec.get("year"), "relevance": rec.get("caregiver_relevance", "")}
     if score is not None:
         s["score"] = round(score, 3)
