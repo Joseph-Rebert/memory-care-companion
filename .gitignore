@@ -14,5 +14,20 @@ venv/
 .DS_Store
 **/.DS_Store
 
-# Claude Code local settings
-.claude/settings.local.json
+# Claude Code / tooling
+.claude/
+
+# Backups (analysis.jsonl.bak, index_meta.json.bak.YYYYMMDD, ...)
+*.bak
+*.bak.*
+
+# Presentation & poster material — not part of the app
+*.pptx
+*.pdf
+poster/
+assets/
+
+# Working notes and planning docs — kept locally, not in the repo
+FEATURES.md
+notes/
+Possible Sources.csv
