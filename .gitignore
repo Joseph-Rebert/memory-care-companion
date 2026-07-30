@@ -1,7 +1,10 @@
 data/*.db
 output/*
-knowledge_base/index.npz
-knowledge_base/index_meta.json
+# knowledge_base/index.{npz,json} are intentionally TRACKED — deploys (Render)
+# get no VOYAGE_API_KEY at build time, so without the committed index
+# load_index() returns None, RAG silently falls back to stuffing all cases, and
+# the per-answer sources card never renders. Re-run `build-embeddings` and
+# commit the result whenever analysis.jsonl changes.
 .env
 __pycache__/
 *.pyc

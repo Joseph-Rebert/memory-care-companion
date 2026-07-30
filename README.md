@@ -96,6 +96,15 @@ no build step — edit and refresh). To deploy a live server, any host that runs
 `Procfile` (Render, Railway, Fly.io) works out of the box; set `ANTHROPIC_API_KEY`
 and `VOYAGE_API_KEY` in the host's environment.
 
+The built index (`knowledge_base/index.npz` + `index_meta.json`) is **committed**
+on purpose: a host builds from the repo without `VOYAGE_API_KEY`, so without it
+`load_index()` returns `None` and the deployed app silently drops to fallback
+mode — answers still cite linked sources, but retrieval is off and the
+per-answer "cases retrieved" card disappears. **Re-run `build-embeddings` and
+commit the result whenever `analysis.jsonl` changes**, or the app serves stale
+records (the index stores a full copy of each case, not a reference to it).
+`eval/smoke_test.py` checks for exactly that drift.
+
 (Without `VOYAGE_API_KEY` / an index, the chat still works — it falls back to
 sending all cases.) See `chatbot/README.md` for setup, the self-serve
 add-knowledge workflow, models, and cost notes.
