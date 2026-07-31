@@ -88,13 +88,22 @@ function renderMarkdown(el, md) {
   }
 }
 
-// The cases retrieved for this answer, pinned under it. Built from the
-// retrieval result itself, so it stays correct and stays with the answer even
-// if the model's prose omits a citation.
+// Of the cases retrieved, the ones the answer actually drew on. Retrieval hands
+// the model a superset, and listing a case it never used reads as a citation it
+// didn't make — so filter to what the reply genuinely cites.
 //
-// Deliberately says "retrieved", not "cited": these are the cases put in front
-// of the model, which is a superset of the ones it actually drew on. The
-// answer's own inline links show what it really used.
+// The model is instructed to cite with the exact SOURCE_URL, so a URL appearing
+// in the reply is a reliable signal. Falls back to a title match for the rare
+// record with no URL.
+function citedSources(sources, answer) {
+  if (!sources || !answer) return [];
+  return sources.filter((s) =>
+    s.url ? answer.includes(s.url) : s.title && answer.includes(s.title));
+}
+
+// The cited cases, pinned under the answer. Built from the retrieval result
+// rather than by scraping the prose, so the titles and links are always the
+// real records — the answer text only decides which ones are included.
 function renderMessageSources(wrap, sources) {
   wrap.querySelector(".msg-sources")?.remove();
   if (!sources || !sources.length) return;
@@ -103,7 +112,7 @@ function renderMessageSources(wrap, sources) {
   box.className = "msg-sources";
   const n = sources.length;
   box.innerHTML =
-    `<summary>${n} case${n > 1 ? "s" : ""} retrieved for this answer</summary>`;
+    `<summary>${n} source${n > 1 ? "s" : ""} cited in this answer</summary>`;
 
   const ul = document.createElement("ul");
   for (const s of sources) {
@@ -177,6 +186,10 @@ async function send(text) {
   }
 
   if (bubble._raw) state.messages.push({ role: "assistant", content: bubble._raw });
+  // Now the answer is complete, show only the cases it actually cited.
+  if (state.config.rag_on) {
+    renderMessageSources(bubble.parentElement, citedSources(bubble._sources, bubble._raw));
+  }
   state.streaming = false;
   $("send").disabled = false;
 }
@@ -184,10 +197,12 @@ async function send(text) {
 function handleEvent(evt, bubble) {
   switch (evt.type) {
     case "sources":
-      // Per-answer card only under RAG; the fallback "sources" list is all 92 cases.
+      // Per-answer card only under RAG; the fallback "sources" list is every case.
+      // Stashed, not rendered: this event arrives before any text, so which of
+      // these the answer cites isn't known until the stream finishes.
       if (state.config.rag_on) {
         renderSources(evt.sources, true);
-        renderMessageSources(bubble.parentElement, evt.sources);
+        bubble._sources = evt.sources;
       }
       break;
     case "delta":
